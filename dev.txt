@@ -1,4 +1,0 @@
-Dev branch's file
-Something from feat-contact
-bug fix here also
-Some lines added also.
