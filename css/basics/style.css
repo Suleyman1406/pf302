@@ -1,0 +1,115 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"); */
+
+h1 {
+  /* color: red; */
+  /* color: rgb(120, 120, 120); */
+  /* color: #787878;
+  background-color: yellow;
+  width: 600px;
+  height: 300px;
+  border: 2px green; */
+}
+
+/* p {
+  background-color: rgb(185, 185, 185);
+  padding: 20px;
+  border: 4px solid red;
+  margin: 10px 20px 30px 40px;
+} */
+
+/* div {
+  background-color: red;
+  width: 200px;
+}
+
+span {
+  width: 700px;
+  background-color: red;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto";
+}
+
+body {
+  /* padding: 20px; */
+}
+
+div {
+  /* background-color: red;
+  width: 200px;
+  display: inline-block; */
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  /* border: 5px solid blue; */
+  /* padding: 0 0 10px 0; */
+  /* padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px; */
+  /* margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px; */
+  /* border-top: 2px solid red;
+  border-right: 4px dashed darkblue;
+  border-bottom: 6px dotted pink;
+  border-left: 8px groove darkcyan; */
+  /* background-color: gray; */
+  /* border-radius: 50%; */
+  /* border-top-left-radius: 5px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 20px; */
+}
+
+p {
+  /* opacity: 0; */
+  /* background-color: rgba(0, 0, 0, 0.4); */
+  /* text-align: center; */
+  /* text-decoration: line-through double; */
+}
+
+/* a {
+  text-decoration: none;
+} */
+
+p {
+  /* text-transform: capitalize; */
+  /* text-indent: 20px; */
+  /* letter-spacing: -6px; */
+  /* word-spacing: 90px; */
+  /* line-height: 10px; */
+
+  /* font-size: 5px; */
+  /* font-size: 30px; */
+
+  font-weight: ;
+}
+
+ul {
+  /* list-style-type: upper-roman; */
+}
+
+div {
+  /* width: 600px; */
+  /* width: 10%; */
+  /* max-width: 400px; */
+  /* min-width: fit-content;
+  background-color: red; */
+}
+
+.img {
+  width: 400px;
+  /* height: 100px; */
+  aspect-ratio: 4/1;
+  border: 2px solid red;
+  margin: 40px;
+  /* object-fit: cover; */
+}
