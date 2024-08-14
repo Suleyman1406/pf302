@@ -74,3 +74,63 @@
 //   console.log("Hello world", number);
 // };
 // printHelloArrow(3);
+
+// function printIfOdd(nums) {
+//   // [3, 6, 8, 12, 17]
+//   for (let num of nums) {
+//     if (getIsOdd(num)) {
+//       console.log(num);
+//     }
+//   }
+// }
+
+// function printIfEven(nums) {
+//   for (let num of nums) {
+//     if (getIsEven(num)) {
+//       console.log(num);
+//     }
+//   }
+// }
+
+// function printIfGreaterThanTen(nums) {
+//   for (let num of nums) {
+//     if (getIsGreaterThanTen(num)) {
+//       console.log(num);
+//     }
+//   }
+// }
+
+// function printIfSmallerThanTen(nums) {
+//   for (let num of nums) {
+//     if (getIsSmallerThanTen(num)) {
+//       console.log(num);
+//     }
+//   }
+// }
+
+// printIfOdd([3, 6, 8, 12, 17]);
+// printIfEven([3, 6, 8, 12, 17]);
+// printIfGreaterThanTen([3, 6, 8, 12, 17]);
+// printIfSmallerThanTen([3, 6, 8, 12, 17]);
+
+// function printWithCondition(nums, condCallback) {
+//   for (let num of nums) {
+//     if (condCallback(num)) {
+//       console.log(num);
+//     }
+//   }
+// }
+
+// printWithCondition([3, 6, 8, 12, 17], (num) => {
+//   return num > 17;
+// });
+
+// A(C);
+
+// function C(num) {00x
+//   console.log("Bye", num);
+// }
+
+// function A(callback) {
+//   callback(12);
+// }

@@ -74,7 +74,7 @@
 
 // console.log(numbers.includes(13));
 
-let numbers = [3, 4, 5, 9, 7, 4, 12];
+// let numbers = [3, 4, 5, 9, 7, 4, 12];
 // let num2 = [5, 6, 7];
 // console.log(numbers.concat(num2));
 // console.log(numbers.indexOf(4));
@@ -88,3 +88,104 @@ let numbers = [3, 4, 5, 9, 7, 4, 12];
 // console.log(
 //   str.replaceAll("&", "a").toUpperCase().split("").reverse().join("")
 // );
+
+// let a = 12;
+// let b = a;
+// a = 13;
+// console.log(b);
+
+// let a = [1, 2, 3];
+// let b = a;
+// a[0] = 4;
+// console.log(b);
+
+// let a = [1, 2, 3];
+// let b = a;
+// a = [2, 3, 4];
+
+// console.log(b);
+
+// function increaseArr(arr) {
+//   arr = [2, 3, 4];
+// }
+
+// let nums = [1, 2, 3];
+// increaseArr(nums);
+// console.log(nums);
+
+// function increaseNum(num){
+//   num++;
+// }
+
+// let a = 12;
+// increaseNum(a);
+// console.log(a);
+
+// function A(){
+
+// }
+
+// let a = function () {};
+
+// numbers.forEach(A);
+// numbers.forEach(b);
+// numbers.forEach(function(){});
+
+// let numbers = [13, 15, 16, 22, 35, 45];
+// let names = ["Ignat", "Leyla", "Murad", "Hesen", "Orxan"];
+
+// Array.prototype.forEach =  (callback) => {
+//   for(let i = 0; i < this.length; i++){
+//     callback(this[i], i, this);
+//   }
+// }
+
+// const result = numbers.forEach((num, idx, arr) => {
+//   // console.log(num ** 2);
+//   return num * 2;
+// });
+// let numbers = [13, 15, 16];
+
+// numbers.forEach((num, idx, arr) => {
+//   console.log(num);
+// });
+
+// console.log("numbers", numbers);
+// console.log("result", result);
+
+// names.map((ad) => {
+//   console.log(ad);
+// });
+
+// let numbers = [13, 15, 16, 22, 35, 45];
+
+// const result = numbers.find((item, i) => {
+//   return item;
+// });
+// const result = numbers.findIndex((item, i) => {
+//   return item > 55;
+// });
+// const result = numbers.filter((item, i) => {
+//   return i % 2 === 1;
+// });
+
+// console.log(result);
+
+// let numbers = [13, 15, 16, 22, 35, 45];
+
+// let res = numbers.every((item) => {
+//   return item > 0;
+// });
+// let res = numbers.some((item) => {
+//   return item < 0;
+// });
+
+// console.log(res);
+
+// const numbers = [3, 5, 2, 7, 10, 100, 1000, 15, 1];
+
+// numbers.sort((t, e) => {
+//   return t - e;
+// });
+
+// console.log(numbers);
