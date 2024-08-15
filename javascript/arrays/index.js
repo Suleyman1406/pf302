@@ -189,3 +189,24 @@
 // });
 
 // console.log(numbers);
+
+// let numbers = [3, 5, 2, 7];
+//                         // 0 0 5 4 21
+// let res = numbers.reduce((prev, item, i) => {
+//   return i * item;
+// }, 0);
+
+// console.log(res);
+
+// let a = [1, 2];
+// let b = [1, 2];
+
+// console.log(a === b);
+
+let a = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
+
+console.log(a[0][1]);

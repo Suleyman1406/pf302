@@ -134,3 +134,17 @@
 // function A(callback) {
 //   callback(12);
 // }
+
+// let sum1 = (a, b) => {
+//   return a + b;
+// };
+
+// let sum = (a, b) => a + b;
+// let sum = (a, b) => console.log(a + b);
+
+// sum(2, 3);
+// console.log(res);
+
+// let print = () => console.log(word);
+
+// print("salam");
