@@ -38,48 +38,92 @@ const buttonElement = document.getElementById("submitBtn");
 //   console.log(e.target.value);
 // });
 
-const fruitNameInput = document.getElementById("fruitNameInput");
-const fruitAddBtn = document.getElementById("fruitAddBtn");
-const fruits = document.getElementById("fruits");
-const fruitSearchInput = document.getElementById("fruitSearchInput");
+// const fruitNameInput = document.getElementById("fruitNameInput");
+// const fruitAddBtn = document.getElementById("fruitAddBtn");
+// const fruits = document.getElementById("fruits");
+// const fruitSearchInput = document.getElementById("fruitSearchInput");
 
-fruitAddBtn.addEventListener("click", () => {
-  const fruitName = fruitNameInput.value.trim();
-  if (!fruitName) {
-    alert("Fruit name is required!");
-    return;
-  }
+// fruitAddBtn.addEventListener("click", () => {
+//   const fruitName = fruitNameInput.value.trim();
+//   if (!fruitName) {
+//     alert("Fruit name is required!");
+//     return;
+//   }
 
-  const fruitListItemElement = document.createElement("li");
+//   const fruitListItemElement = document.createElement("li");
 
-  const fruitNameELement = document.createElement("span");
-  fruitNameELement.textContent = fruitName;
+//   const fruitNameELement = document.createElement("span");
+//   fruitNameELement.textContent = fruitName;
 
-  const fruitDeleteBtn = document.createElement("button");
-  fruitDeleteBtn.textContent = "x";
-  fruitDeleteBtn.className = "delete-btn";
+//   const fruitDeleteBtn = document.createElement("button");
+//   fruitDeleteBtn.textContent = "x";
+//   fruitDeleteBtn.className = "delete-btn";
 
-  fruitDeleteBtn.addEventListener("click", () => {
-    fruitListItemElement.remove();
-  });
+//   fruitDeleteBtn.addEventListener("click", () => {
+//     fruitListItemElement.remove();
+//   });
 
-  fruitListItemElement.append(fruitNameELement, fruitDeleteBtn);
-  fruits.append(fruitListItemElement);
-  fruitNameInput.value = "";
-});
+//   fruitListItemElement.append(fruitNameELement, fruitDeleteBtn);
+//   fruits.append(fruitListItemElement);
+//   fruitNameInput.value = "";
+// });
 
-fruitSearchInput.addEventListener("keyup", (e) => {
-  const searchStr = e.target.value;
+// fruitSearchInput.addEventListener("keyup", (e) => {
+//   const searchStr = e.target.value;
 
-  Array.from(fruits.children).forEach((fruitLi) => {
-    if (
-      fruitLi.firstElementChild.textContent
-        .toLowerCase()
-        .startsWith(searchStr.trim().toLowerCase())
-    ) {
-      fruitLi.style.display = "list-item";
-    } else {
-      fruitLi.style.display = "none";
-    }
-  });
-});
+//   Array.from(fruits.children).forEach((fruitLi) => {
+//     if (
+//       fruitLi.firstElementChild.textContent
+//         .toLowerCase()
+//         .startsWith(searchStr.trim().toLowerCase())
+//     ) {
+//       fruitLi.style.display = "list-item";
+//     } else {
+//       fruitLi.style.display = "none";
+//     }
+//   });
+// });
+
+const btnElement = document.getElementById("btn");
+
+// btnElement.addEventListener("click", () => {
+//   console.log("Clicked 2");
+// });
+// btnElement.addEventListener("click", () => {
+//   console.log("Clicked 1");
+// });
+// btnElement.addEventListener("click", () => {
+//   console.log("Clicked 3");
+// });
+
+// let a;
+
+// a = 12;
+// a = 13;
+// a = 15;
+
+// btnElement.onclick = () => {
+//   console.log("Clicked 1");
+// };
+// btnElement.onclick = () => {
+//   console.log("Clicked 2");
+// };
+// btnElement.onclick = () => {
+//   console.log("Clicked 3");
+// };
+
+// const handleBtnClick = () => {
+//   console.log("Clicked");
+// };
+
+// btnElement.addEventListener("click", handleBtnClick);
+
+// btnElement.removeEventListener("click", handleBtnClick);
+
+// const registerForm = document.getElementById("register-form");
+// const formInputs = registerForm.querySelectorAll("input");
+// const [nameInput, emailInput, passwordInput] = formInputs;
+
+// registerForm.addEventListener("submit", (e) => {
+//   e.preventDefault();
+// });
