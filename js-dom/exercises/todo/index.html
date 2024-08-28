@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>todos</h1>
+    </header>
+
+    <div class="form-wrapper">
+      <button id="toggle-all-items">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <form id="todo-form">
+        <input type="text"  placeholder="What needs to be done?" />
+      </form>
+    </div>
+
+    <div class="todo-items-wrapper">
+      <ul id="todo-items-list">
+       
+      </ul>
+      <div class="info-section">
+        <div class="items-count">
+          <span>0</span> items left
+        </div>
+        <div class="action-btns">
+          <button class="active">All</button>
+          <button>Active</button>
+          <button>Completed</button>
+        </div>
+        <button id="clear-completed-items-btn">Clear Completed</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Click to edit a todo</p>
+      <p>
+        Created by
+        <a href="https://muradibra-portfolio.vercel.app/">Murad Ibrahimov</a>
+      </p>
+      <p>
+        <a href="https://github.com/muradibra/todo_app_js">Source Code</a>
+      </p>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

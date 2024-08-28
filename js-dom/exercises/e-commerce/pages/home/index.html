@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Products</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      nav {
+        padding: 10px 60px;
+        background-color: pink;
+      }
+
+      h1 {
+        margin: 30px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin-right: auto;
+        margin-left: auto;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+      }
+
+      .table {
+        width: 100%;
+        border: 1px solid #eeeeee;
+      }
+
+      .table-header {
+        display: flex;
+        width: 100%;
+        background: #000;
+        padding: 18px 0;
+      }
+
+      .table-row {
+        display: flex;
+        width: 100%;
+        padding: 18px 0;
+      }
+      .table-row:nth-of-type(odd) {
+        background: #eeeeee;
+      }
+
+      .table-data,
+      .header__item {
+        flex: 1 1 20%;
+        text-align: center;
+      }
+      .table-data img {
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .table-data img:hover {
+        transform: scale(1.1);
+      }
+
+      .header__item {
+        text-transform: uppercase;
+      }
+
+      .filter__link {
+        color: white;
+        text-decoration: none;
+        position: relative;
+        display: inline-block;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .filter__link::after {
+        content: "";
+        position: absolute;
+        right: -18px;
+        color: white;
+        font-size: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .filter__link.desc::after {
+        content: "(desc)";
+      }
+      .filter__link.asc::after {
+        content: "(asc)";
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      nav a {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: 0.4s;
+        position: relative;
+      }
+      nav a:hover {
+        transform: scale(1.2);
+      }
+      nav a span {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        text-decoration: none;
+        border-radius: 50%;
+        color: white;
+        background-color: red;
+        font-size: 12px;
+        font-weight: 700;
+        min-width: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+      }
+      .table-data {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        justify-content: center;
+      }
+      .table-data a {
+        color: purple;
+        text-decoration: none;
+      }
+    </style>
+
+    <script defer src="../../data/products.js"></script>
+    <script defer src="./script.js"></script>
+  </head>
+  <body>
+    <nav>
+      <h1>CodE-Commerce</h1>
+      <a href="../cart/index.html">
+        <img width="20" src="../../assets/icons/cart.svg" alt="Cart" />
+        <span id="cart-length"></span>
+      </a>
+    </nav>
+
+    <div class="container">
+      <h1>Products</h1>
+
+      <div class="table">
+        <div class="table-header">
+          <div class="header__item">
+            <a id="name" class="filter__link" href="#">ID</a>
+          </div>
+          <div class="header__item">
+            <a id="wins" class="filter__link filter__link--number" href="#"
+              >Title</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="draws" class="filter__link filter__link--number" href="#"
+              >Price</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="losses" class="filter__link filter__link--number" href="#"
+              >Description</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="total" class="filter__link filter__link--number" href="#"
+              >Actions</a
+            >
+          </div>
+        </div>
+        <div class="table-content"></div>
+      </div>
+    </div>
+  </body>
+</html>
