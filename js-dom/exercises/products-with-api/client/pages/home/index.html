@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script defer src="./script.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        padding: 100px;
+      }
+      table th,
+      table td {
+        padding: 10px;
+      }
+      .status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+      }
+      .status.active {
+        background-color: green;
+      }
+      form {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 40px;
+        background-color: rgb(209, 209, 209);
+        padding: 20px;
+        border-radius: 10px;
+      }
+      form input {
+        padding: 4px 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <input type="text" name="name" placeholder="Name" />
+      <input type="number" name="price" placeholder="Price" />
+      <input type="text" name="category" placeholder="Category" />
+      <input type="text" name="imgUrl" placeholder="Image Url" />
+      <div>
+        <input id="inStock" name="inStock" type="checkbox" />
+        <label for="inStock">In Stock</label>
+      </div>
+      <button type="submit">Create</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </body>
+</html>
