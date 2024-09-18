@@ -81,8 +81,9 @@ app.get("/api", (req, res) => {
   res.json(apiInfoObj);
 });
 
-app.get("/api/products", (req, res) => {
-  const { searchStr, category } = req.query;
+app.get("/api/products", async (req, res) => {
+  await new Promise((res) => setTimeout(() => res(), 500));
+  const { searchStr, category, take, skip } = req.query;
 
   const filteredProducts = products
     .filter((p) =>
@@ -99,11 +100,24 @@ app.get("/api/products", (req, res) => {
     )
     .filter((p) => (category ? p.category === category : true));
 
-  res.status(200).json(filteredProducts);
+  // Pagination
+  const skipCount = skip ? parseInt(skip) : 0;
+  const takeCount = take ? parseInt(take) : 10;
+  const paginatedProducts = filteredProducts.slice(
+    skipCount,
+    skipCount + takeCount
+  );
+
+  res.status(200).json({
+    products: paginatedProducts,
+    total: filteredProducts.length,
+    hasMore: skipCount + takeCount < filteredProducts.length,
+  });
 });
 
-app.get("/api/products/:id", (req, res) => {
+app.get("/api/products/:id", async (req, res) => {
   try {
+    await new Promise((res) => setTimeout(() => res(), 3000));
     const { id } = req.params;
 
     if (!id) {
@@ -198,5 +212,5 @@ app.delete("/api/products/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`NFT Marketplace server app listening on port ${port}`);
+  console.log(`Server app listening on port ${port}`);
 });

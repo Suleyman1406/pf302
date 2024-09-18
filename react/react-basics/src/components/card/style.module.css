@@ -1,0 +1,54 @@
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+}
+.card .heading {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card p {
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card .badge {
+  padding: 4px 6px;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 6px;
+}
+
+.delete__action {
+  background-color: red;
+  border: none;
+  color: white;
+  /* border-radius: 6px; */
+  padding: 10px 6px;
+  cursor: pointer;
+}

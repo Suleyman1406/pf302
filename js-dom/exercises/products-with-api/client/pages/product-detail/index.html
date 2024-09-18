@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script defer src="./script.js"></script>
+
+    <style>
+      .loader {
+        width: 64px;
+        height: 64px;
+        border: 5px solid #43d777;
+        border-bottom-color: #ff3d00;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .loading-overlay p {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-overlay">
+      <span class="loader"></span>
+      <p>Loading...</p>
+    </div>
+    <h1 id="name"></h1>
+    <h2 id="category"></h2>
+    <h2 id="price"></h2>
+    <img src="" id="img" />
+  </body>
+</html>
