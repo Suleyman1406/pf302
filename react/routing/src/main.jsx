@@ -11,6 +11,7 @@ import AboutPage from "./pages/about";
 import Root from "./components/root";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./style/global.css";
+
 const router = createBrowserRouter([
   {
     path: "/",

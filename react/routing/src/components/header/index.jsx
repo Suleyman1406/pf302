@@ -12,9 +12,9 @@ export const Header = () => {
   // console.log(navItems);
 
   return (
-    <div className="w-full py-6 px-10 bg-primary flex justify-between">
+    <div className="sticky top-0 z-20 w-full py-2 px-10 bg-primary flex justify-between">
       <Link to="/">
-        <img src={LogoSrc} alt="Logo" />
+        <img src={LogoSrc} alt="Logo" className="h-12" />
       </Link>
       <div className="flex  items-center gap-x-3">
         {navItems.map((navItem, idx) => {
@@ -26,7 +26,7 @@ export const Header = () => {
               //   navItem.path === pathname && "text-purple-600 font-bold"
               // }`}
               className={({ isActive }) =>
-                `text-white text-xl font-light uppercase ${
+                `text-white text-lg font-light uppercase ${
                   isActive && "text-purple-900"
                 }`
               }
