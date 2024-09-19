@@ -6,7 +6,7 @@ import { ProductCard } from "../../components/products/card";
 import { Box, Typography } from "@mui/joy";
 import { ProductActionModal } from "../../components/products/action-modal";
 
-const ProductsPage = () => {
+const ProductsPage = ({ setFavorites, favorites }) => {
   const [loading, setLoading] = useState(true);
   const [loadMoreLoading, setLoadMoreLoading] = useState(false);
   const [products, setProducts] = useState([]);
@@ -37,6 +37,7 @@ const ProductsPage = () => {
     setLoading(false);
   }
 
+  console.log(favorites, setFavorites);
   async function handleLoadMore() {
     setLoadMoreLoading(true);
     const data = await fetchData(6, products.length);
@@ -59,7 +60,12 @@ const ProductsPage = () => {
       </div>
       <div className="grid grid-cols-3 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            setFavorites={setFavorites}
+            favorites={favorites}
+            key={product.id}
+            product={product}
+          />
         ))}
         {loading && (
           <>

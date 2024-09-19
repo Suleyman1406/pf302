@@ -57,7 +57,7 @@ export function ProductActionModal() {
   return (
     <React.Fragment>
       <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
-        Open modal
+        Create Product
       </Button>
       <Transition in={open} timeout={400}>
         {(state) => (

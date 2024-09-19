@@ -8,7 +8,7 @@ import Typography from "@mui/joy/Typography";
 import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
 import { Avatar, Box, Skeleton } from "@mui/joy";
 
-export function ProductCard({ product }) {
+export function ProductCard({ product, setFavorites, favorites }) {
   const { name, imgPath, creator, price } = product;
   const { name: creatorName, profileImgPath } = creator;
   const { value, currency } = price;
@@ -29,6 +29,9 @@ export function ProductCard({ product }) {
           variant="plain"
           color="neutral"
           size="sm"
+          onClick={() => {
+            setFavorites([...favorites, product]);
+          }}
           sx={{ position: "absolute", top: "0.875rem", right: "0.5rem" }}
         >
           <BookmarkAdd />

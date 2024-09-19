@@ -11,6 +11,7 @@ import AboutPage from "./pages/about";
 import Root from "./components/root";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./style/global.css";
+import FavoritesPage from "./pages/bookmark";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutPage />,
+      },
+      {
+        path: "favorites",
+        element: <FavoritesPage />,
       },
     ],
   },
