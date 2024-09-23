@@ -7,8 +7,13 @@ import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
 import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
 import { Avatar, Box, Skeleton } from "@mui/joy";
+import { useContext } from "react";
+import { FavoriteContext } from "../../../context/favorite";
+import { BookmarkRemove } from "@mui/icons-material";
+import toast from "react-hot-toast";
 
-export function ProductCard({ product, setFavorites, favorites }) {
+export function ProductCard({ product }) {
+  const { toggleFavorite, isFavorite } = useContext(FavoriteContext);
   const { name, imgPath, creator, price } = product;
   const { name: creatorName, profileImgPath } = creator;
   const { value, currency } = price;
@@ -30,11 +35,14 @@ export function ProductCard({ product, setFavorites, favorites }) {
           color="neutral"
           size="sm"
           onClick={() => {
-            setFavorites([...favorites, product]);
+            const isFavorited = toggleFavorite(product);
+            toast.success(
+              isFavorited ? "Added to favorites" : "Removed from favorites"
+            );
           }}
           sx={{ position: "absolute", top: "0.875rem", right: "0.5rem" }}
         >
-          <BookmarkAdd />
+          {isFavorite(product) ? <BookmarkRemove /> : <BookmarkAdd />}
         </IconButton>
       </div>
       <AspectRatio ratio="15/16">

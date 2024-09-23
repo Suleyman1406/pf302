@@ -1,18 +1,15 @@
-// import { useLocation } from "react-router-dom";
 import { Link, NavLink } from "react-router-dom";
 import React from "react";
 
-import { navItems } from "../../constants";
+import { navItems } from "../../constants/nav-items";
 
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import { Badge, Button, Typography } from "@mui/joy";
+import { Badge, Typography } from "@mui/joy";
 import LogoSrc from "../../assets/images/logo.svg";
+import { useContext } from "react";
+import { FavoriteContext } from "../../context/favorite";
 
-export const Header = ({ favorites }) => {
-  // const { pathname } = useLocation();
-
-  // console.log(navItems);
-  console.log(favorites);
+export const Header = () => {
+  const { favorites } = useContext(FavoriteContext);
 
   return (
     <div className="sticky top-0 z-20 w-full py-2 px-10 bg-primary flex justify-between">
@@ -25,9 +22,6 @@ export const Header = ({ favorites }) => {
             <NavLink
               key={idx}
               to={navItem.path}
-              // className={`text-white text-xl font-light uppercase ${
-              //   navItem.path === pathname && "text-purple-600 font-bold"
-              // }`}
               className={({ isActive }) =>
                 `text-white text-lg font-light uppercase ${
                   isActive && "text-purple-900"
