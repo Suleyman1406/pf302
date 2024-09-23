@@ -184,7 +184,13 @@ app.delete("/api/creators/:id", (req, res) => {
 
 app.get("/api/nfts", async (req, res) => {
   try {
-    const { skip, pageSize = 10, searchStr } = req.query;
+    const {
+      skip,
+      pageSize = 10,
+      searchStr,
+      sort,
+      creators: creatorFilter,
+    } = req.query;
     const startIndex = skip ? +skip : 0;
     const endIndex = startIndex + +pageSize;
 
@@ -193,12 +199,46 @@ app.get("/api/nfts", async (req, res) => {
       creator: creators.find((c) => c.id == nft.creatorId),
       creatorId: undefined,
     }));
-    const filteredNFTS = mappedNFTSWithCreator.filter(
+
+    // Filter NFTs by search string and creator(s)
+    let filteredNFTS = mappedNFTSWithCreator.filter(
       (nft) =>
         (searchStr
           ? nft.name.toLowerCase().includes(searchStr.toLowerCase())
           : true) && nft.creator
     );
+
+    if (creatorFilter) {
+      const creatorIds = creatorFilter.split(",").map((id) => id.trim());
+      filteredNFTS = filteredNFTS.filter((nft) =>
+        creatorIds.includes(nft.creator.id)
+      );
+    }
+
+    if (sort) {
+      const [sortBy, sortOrder] = sort.split("-");
+      filteredNFTS.sort((a, b) => {
+        let valueA, valueB;
+        if (!sortBy || !sortOrder) {
+          return 0;
+        }
+
+        if (sortBy === "name") {
+          valueA = a.name.toLowerCase();
+          valueB = b.name.toLowerCase();
+        } else if (sortBy === "price") {
+          valueA = parseFloat(a.price.value);
+          valueB = parseFloat(b.price.value);
+        } else {
+          return 0; // Default to no sorting if sortBy doesn't match valid fields
+        }
+
+        if (valueA < valueB) return sortOrder === "asc" ? -1 : 1;
+        if (valueA > valueB) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
     const nftsSlice = filteredNFTS.slice(startIndex, endIndex);
 
     res.status(200).json({
