@@ -6,8 +6,11 @@ import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import { useState } from "react";
 import { useEffect } from "react";
-let timeoutId = null;
+import { getCreators } from "../../../service/creator";
+import { useSelector } from "react-redux";
+import { selectCreatorData } from "../../../redux/features/creatorsSlice";
 
+let timeoutId = null;
 const sortOptions = [
   { value: "name-asc", label: "Name", icon: <NorthIcon fontSize="12" /> },
   { value: "name-desc", label: "Name", icon: <SouthIcon fontSize="12" /> },
@@ -34,36 +37,29 @@ export const ProductsFilter = () => {
   const defaultSearchValue = searchParams.get("searchStr") || "";
   const defaultSortValue = searchParams.get("sort") || "";
   const defaultCreatorsValue = searchParams.get("creators") || "";
-  const [creators, setCreators] = useState([]);
-
-  async function getCreators() {
-    const response = await fetch("http://localhost:3000/api/creators");
-    const data = await response.json();
-    setCreators(data);
-  }
+  const { items: creators } = useSelector(selectCreatorData);
 
   const handleSearch = (value) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      searchParams.set("searchStr", value);
+      if (value) searchParams.set("searchStr", value);
+      else searchParams.delete("searchStr");
       setSearchParams(searchParams);
     }, 400);
   };
 
   const handleSortChange = (value) => {
-    searchParams.set("sort", value);
+    if (value) searchParams.set("sort", value);
+    else searchParams.delete("sort");
     setSearchParams(searchParams);
   };
 
   const handleCreatorChange = (value) => {
     const creators = value.join(",");
-    searchParams.set("creators", creators);
+    if (creators) searchParams.set("creators", creators);
+    else searchParams.delete("creators");
     setSearchParams(searchParams);
   };
-
-  useEffect(() => {
-    getCreators();
-  }, []);
 
   const creatorOptions = creators.map((creator) => {
     return {

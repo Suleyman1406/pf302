@@ -6,27 +6,28 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import { Box, FormControl, FormLabel, Input, Option, Select } from "@mui/joy";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { createNft } from "../../../service/nft";
+import { useDispatch } from "react-redux";
+import { getNftData } from "../../../redux/features/nftsSlice";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCreatorData } from "../../../redux/features/creatorsSlice";
+
 export function ProductActionModal() {
   const [open, setOpen] = useState(false);
-  const [creators, setCreators] = useState([]);
+  const { items: creators } = useSelector(selectCreatorData);
   const [name, setName] = useState("");
   const [priceCurrency, setPriceCurrency] = useState("");
   const [priceValue, setPriceValue] = useState("");
   const [creatorId, setCreatorId] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getCreators();
-  }, []);
-
-  async function getCreators() {
-    const response = await fetch("http://localhost:3000/api/creators");
-    const data = await response.json();
-    setCreators(data);
-  }
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const searchStrParams = searchParams.get("searchStr") || "";
+  const sortParams = searchParams.get("sort") || "";
+  const creatorsParams = searchParams.get("creators") || "";
 
   async function handleSave() {
     setLoading(true);
@@ -37,10 +38,8 @@ export function ProductActionModal() {
     formData.append("creatorId", creatorId);
     formData.append("image", image);
 
-    const resultPromise = fetch("http://localhost:3000/api/nfts", {
-      method: "POST",
-      body: formData,
-    });
+    const resultPromise = createNft(formData);
+
     toast.promise(resultPromise, {
       loading: "Creating product...",
       success: "Product created successfully",
@@ -50,6 +49,13 @@ export function ProductActionModal() {
     const result = await resultPromise;
     if (result.status === 201) {
       setOpen(false);
+      dispatch(
+        getNftData({
+          creators: creatorsParams,
+          sort: sortParams,
+          searchStr: searchStrParams,
+        })
+      );
     }
     setLoading(false);
   }

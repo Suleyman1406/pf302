@@ -12,6 +12,10 @@ import Root from "./components/root";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./style/global.css";
 import FavoritesPage from "./pages/favorites";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 const router = createBrowserRouter([
   {
@@ -48,5 +52,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
