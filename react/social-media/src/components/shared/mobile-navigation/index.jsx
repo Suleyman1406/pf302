@@ -10,6 +10,7 @@ export const MobileNavigation = () => {
     <div className="fixed bottom-0 w-full flex md:hidden bg-black py-4">
       {NAV_ITEMS.map((item) => (
         <Link
+          key={item.to}
           to={item.to}
           className={cn(
             "flex-1 flex flex-col items-center text-white",

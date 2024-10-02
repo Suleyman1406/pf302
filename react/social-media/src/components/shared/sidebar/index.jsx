@@ -16,6 +16,7 @@ export const Sidebar = () => {
       <ul className="hidden md:flex flex-col gap-6 px-3 mt-12">
         {NAV_ITEMS.map((item) => (
           <Link
+            key={item.to}
             to={item.to}
             className={cn(
               `flex items-center gap-2 font-bold`,
