@@ -6,9 +6,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { POST_QUERY_KEY } from "@/constants/query-keys";
 import { getPosts } from "@/services/posts";
 import { Button } from "@/components/ui/button";
+import { PostsFilter } from "./components/Filter";
+import { useSearchParams } from "react-router-dom";
 
 const HomePage = () => {
-  // const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search") ?? "";
+  const sort = searchParams.get("sort") ?? "";
   const {
     data,
     isLoading,
@@ -18,14 +22,15 @@ const HomePage = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: [POST_QUERY_KEY],
-    queryFn: getPosts,
+    queryKey: [POST_QUERY_KEY, search, sort],
+    queryFn: ({ pageParam }) => getPosts({ pageParam, search, sort }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const { total, page, limit } = lastPage;
       const hasMore = total > page * limit;
       return hasMore ? page + 1 : undefined;
     },
+    refetchOnWindowFocus: false,
   });
 
   const { pages } = data ?? {};
@@ -36,7 +41,8 @@ const HomePage = () => {
 
   return (
     <div className="mx-auto max-w-screen-lg px-4 md:px-10 py-10 bg-gray-100">
-      <Heading />
+      <Heading total={data?.pages?.[0]?.total ?? 0} />
+      <PostsFilter />
       <PostsWrapper>
         {pages?.map((page) =>
           page.data.map((post) => <PostCard key={post.id} post={post} />)

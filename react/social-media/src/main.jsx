@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { router } from "./router";
 import "./styles/global.css";
+import "./styles/index.css";
 
 const queryClient = new QueryClient();
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,26 +23,35 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPost } from "@/services/posts";
+import { createPost, editPost } from "@/services/posts";
 import { POST_QUERY_KEY } from "@/constants/query-keys";
-import { useRef } from "react";
+import { MODAL_TYPE } from "@/constants";
+import { useDialog } from "@/hooks/useDialog";
+import { useEffect } from "react";
+import { XIcon } from "lucide-react";
 
-const formSchema = z.object({
-  title: z.string().min(3, {
-    message: "Olmaz bele yazmaq, 3 herf!",
-  }),
-  content: z.string().min(10),
-  tags: z.string(),
-  image: z.instanceof(File, {
-    message: "Image is required",
-  }),
-});
+const getFormSchema = (isEdit) =>
+  z.object({
+    title: z.string().min(3, {
+      message: "Olmaz bele yazmaq, 3 herf!",
+    }),
+    content: z.string().min(10),
+    tags: z.string(),
+    image: isEdit
+      ? z.any().nullable()
+      : z.instanceof(File, {
+          message: "Image is required",
+        }),
+  });
 
-export const CreatePostDialog = () => {
-  // const [isOpen, setIsOpen] = useState(false);
+export const PostActionDialog = () => {
+  const { type, isOpen, setIsOpen, data } = useDialog();
+  const [imagePreview, setImagePreview] = useState(null);
   const queryClient = useQueryClient();
+  const isEdit = type === MODAL_TYPE.EDIT;
+
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(getFormSchema(isEdit)),
     defaultValues: {
       title: "",
       content: "",
@@ -49,12 +59,10 @@ export const CreatePostDialog = () => {
       image: null,
     },
   });
-  const closeButtonRef = useRef(null);
-  const { mutate, isPending, data } = useMutation({
-    mutationFn: createPost,
+  const { mutate, isPending } = useMutation({
+    mutationFn: isEdit ? editPost : createPost,
     onSuccess: () => {
-      closeButtonRef.current.click();
-      form.reset();
+      setIsOpen(false);
       queryClient.invalidateQueries({ queryKey: [POST_QUERY_KEY] });
     },
   });
@@ -64,19 +72,30 @@ export const CreatePostDialog = () => {
     formData.append("title", values.title);
     formData.append("content", values.content);
     formData.append("tags", values.tags);
-    formData.append("image", values.image);
-    mutate(formData);
+    if (values.image) formData.append("image", values.image);
+    mutate(isEdit ? { id: data.id, data: formData } : { data: formData });
   }
 
+  useEffect(() => {
+    if (isOpen && isEdit) {
+      form.setValue("title", data.title);
+      form.setValue("content", data.content);
+      form.setValue("tags", data.tags.join(","));
+      setImagePreview(data.image);
+    }
+    if (!isOpen) {
+      form.reset();
+      setImagePreview(null);
+    }
+  }, [isOpen]);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="sm">Create Post</Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="w-[360px]">
         <DialogHeader>
-          <DialogTitle>Create Post</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit Post" : "Create Post"}</DialogTitle>
         </DialogHeader>
+        <DialogDescription />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
@@ -118,29 +137,39 @@ export const CreatePostDialog = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Post Image</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          form.setValue("image", file);
-                          form.clearErrors("image");
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogClose asChild ref={closeButtonRef}>
+            {imagePreview ? (
+              <div className="relative h-24 w-fit mx-auto">
+                <img src={imagePreview} alt="Post" className="h-full" />
+                <XIcon
+                  onClick={() => setImagePreview(null)}
+                  className="absolute right-0 top-0 cursor-pointer text-destructive"
+                />
+              </div>
+            ) : (
+              <FormField
+                control={form.control}
+                name="image"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Post Image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            form.setValue("image", file);
+                            form.clearErrors("image");
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            <DialogClose asChild>
               <Button
                 variant="secondary"
                 className="mr-2"

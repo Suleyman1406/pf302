@@ -1,22 +1,10 @@
-import { CreatePostDialog } from "@/components/shared/create-post-dialog";
-import { POST_QUERY_KEY } from "@/constants/query-keys";
-import { getPosts } from "@/services/posts";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { useDialog } from "@/hooks/useDialog";
 import React from "react";
 
-export const Heading = () => {
-  const { data } = useInfiniteQuery({
-    queryKey: [POST_QUERY_KEY],
-    queryFn: getPosts,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const { total, page, limit } = lastPage;
-      const hasMore = total > page * limit;
-      return hasMore ? page + 1 : undefined;
-    },
-  });
+export const Heading = ({ total }) => {
+  const { setIsOpen } = useDialog();
 
-  const total = data?.pages?.[0]?.total ?? 0;
   return (
     <div className="flex justify-between items-center">
       <div>
@@ -29,7 +17,9 @@ export const Heading = () => {
         </p>
       </div>
       <div>
-        <CreatePostDialog />
+        <Button size="sm" onClick={() => setIsOpen(true)}>
+          Create Post
+        </Button>
       </div>
     </div>
   );

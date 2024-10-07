@@ -1,14 +1,23 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 import { UserCircle2Icon } from "lucide-react";
 import moment from "moment";
 import React from "react";
+import { PostCardAction } from "./Actions";
+import { PostLike } from "./Like";
+import { PostComments } from "./comments";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { useState } from "react";
 
 export const PostCard = ({ post }) => {
-  const { image, content, tags, title, liked, createdAt, comments } = post;
+  const { id, image, content, tags, title, liked, createdAt, comments } = post;
+  const [collapsed, setCollapsed] = useState(true);
 
   const time = moment(createdAt).fromNow();
   const commentCount = comments.length;
+
+  function toogleCollapse() {
+    setCollapsed((prev) => !prev);
+  }
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md max-w-md min-w-[400px]">
@@ -20,25 +29,7 @@ export const PostCard = ({ post }) => {
             <p className="text-gray-500 text-sm">Posted {time}</p>
           </div>
         </div>
-        <div className="text-gray-500 cursor-pointer">
-          <button className="hover:bg-gray-50 rounded-full p-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="7" r="1" />
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="12" cy="17" r="1" />
-            </svg>
-          </button>
-        </div>
+        <PostCardAction post={post} />
       </div>
 
       <div className="mb-4">
@@ -61,18 +52,11 @@ export const PostCard = ({ post }) => {
       </div>
 
       <div className="flex items-center justify-between text-gray-500">
-        <div className="flex items-center space-x-2">
-          <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
-            <svg
-              className={cn("w-5 h-5 fill-current", liked && "fill-red-500")}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-          </button>
-        </div>
-        <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
+        <PostLike liked={liked} postId={id} />
+        <button
+          onClick={toogleCollapse}
+          className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1"
+        >
           <svg
             width="22px"
             height="22px"
@@ -97,52 +81,12 @@ export const PostCard = ({ post }) => {
           <span>{commentCount} Comment</span>
         </button>
       </div>
-      {/*
-      <hr className="mt-2 mb-2" />
-      <p className="text-gray-800 font-semibold">Comment</p>
-      <hr className="mt-2 mb-2" /> 
-      <div className="mt-4">
-        <div className="flex items-center space-x-2">
-          <img
-            src="https://placekitten.com/32/32"
-            alt="User Avatar"
-            className="w-6 h-6 rounded-full"
-          />
-          <div>
-            <p className="text-gray-800 font-semibold">Jane Smith</p>
-            <p className="text-gray-500 text-sm">Lovely shot! 📸</p>
-          </div>
-        </div>
 
-        <div className="flex items-center space-x-2 mt-2">
-          <img
-            src="https://placekitten.com/32/32"
-            alt="User Avatar"
-            className="w-6 h-6 rounded-full"
-          />
-          <div>
-            <p className="text-gray-800 font-semibold">Bob Johnson</p>
-            <p className="text-gray-500 text-sm">
-              I can't handle the cuteness! Where can I get one?
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-2 mt-2 ml-6">
-          <img
-            src="https://placekitten.com/40/40"
-            alt="User Avatar"
-            className="w-6 h-6 rounded-full"
-          />
-          <div>
-            <p className="text-gray-800 font-semibold">John Doe</p>
-            <p className="text-gray-500 text-sm">
-              That little furball is from a local shelter. You should check it
-              out! 🏠😺
-            </p>
-          </div>
-        </div>
-      </div> */}
+      <Collapsible open={!collapsed} onOpenChange={setCollapsed}>
+        <CollapsibleContent>
+          <PostComments isOpen={!collapsed} postId={id} comments={[]} />
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 };
