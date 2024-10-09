@@ -9,7 +9,7 @@ const RootLayout = () => {
   return (
     <div className="md:flex">
       <Sidebar />
-      <div className={`md:w-[calc(100%-240px)]`}>
+      <div className={`md:w-[calc(100%-240px)] `}>
         <Outlet />
       </div>
       <PostActionDialog />

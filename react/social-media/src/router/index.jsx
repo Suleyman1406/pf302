@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { PATHS } from "../constants/paths";
 import HomePage from "@/pages/home";
 import RootLayout from "@/layouts/root";
-import SavedPostsPage from "@/pages/saved-posts";
+import { Suspense, lazy } from "react";
+// import SavedPostsPage from "@/pages/saved-posts";
+const SavedPostsPage = lazy(() => import("@/pages/saved-posts"));
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +17,11 @@ export const router = createBrowserRouter([
       },
       {
         path: PATHS.SAVED,
-        element: <SavedPostsPage />,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <SavedPostsPage />
+          </Suspense>
+        ),
       },
     ],
   },

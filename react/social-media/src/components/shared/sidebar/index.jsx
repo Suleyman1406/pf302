@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ModeToggle } from "../theme-toggle";
 
 export const Sidebar = () => {
   const location = useLocation();
@@ -13,7 +14,7 @@ export const Sidebar = () => {
         <img src="/logo.svg" />
         <h1>CodeGram</h1>
       </Link>
-      <ul className="hidden md:flex flex-col gap-6 px-3 mt-12">
+      <ul className="hidden md:flex flex-col gap-8 px-3 mt-12">
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.to}
@@ -27,6 +28,7 @@ export const Sidebar = () => {
             {item.title}
           </Link>
         ))}
+        <ModeToggle />
       </ul>
     </div>
   );
