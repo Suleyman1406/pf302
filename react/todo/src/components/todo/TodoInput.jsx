@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 export const TodoInput = ({ setTodos }) => {
   const inputRef = useRef();
 
-  console.log(uuidv4());
   function handleSubmit(e) {
     e.preventDefault();
     const todo = {

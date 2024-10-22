@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TodoInput } from "./TodoInput";
 import { TodoList } from "./TodoList";
 
 export const Todo = () => {
   const [todos, setTodos] = useState([]);
+  // let count = 0;
 
   function handleTodoAction(type, todo) {
     if (type === "edit") {
@@ -15,6 +16,20 @@ export const Todo = () => {
       setTodos(todos.filter((t) => t.id !== todo.id));
     }
   }
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     console.log(count++);
+  //   }, 1000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("Component did update");
+  // });
 
   return (
     <div className="w-[600px] mx-auto mt-10">

@@ -2,7 +2,6 @@ import { BASE_URL } from "@/constants";
 import axios from "axios";
 
 export async function getPosts({ pageParam, search = "", sort = "" }) {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   try {
     const response = await axios(
       `${BASE_URL}/posts?page=${pageParam}&search=${search}&sort=${sort}&limit=3`
