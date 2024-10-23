@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PlusIcon } from "lucide-react";
-import React from "react";
+import { PlusIcon, TrashIcon } from "lucide-react";
+import React, { useState } from "react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { UploadSingleImage } from "@/components/shared/UploadImage";
+import { createProduct } from "@/actions/product";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -35,14 +38,16 @@ const formSchema = z.object({
     z.number().gte(0)
   ),
   description: z.string().min(2).max(500),
-  // category: z.string().min(2).max(50),
-  // image: z.string().url(),
+  imageUrl: z.string().min(1, {
+    message: "Please upload an image",
+  }),
 });
 
 type Props = {
   type: EProductModalType;
 };
 export const ProductDialog = ({ type }: Props) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isCreate = type === EProductModalType.CREATE;
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,17 +57,24 @@ export const ProductDialog = ({ type }: Props) => {
       price: 0,
       quantity: 0,
       description: "",
+      imageUrl: "",
     },
   });
+  const imageUrlValue = form.watch("imageUrl");
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { ok, error } = await createProduct({ product: values });
+
+    if (!ok) {
+      return toast.error(error);
+    }
+    toast.success("Product created successfully");
+    form.reset();
+    setIsDialogOpen(false);
   }
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button className="bg-blue-800">
           {isCreate && (
@@ -126,6 +138,27 @@ export const ProductDialog = ({ type }: Props) => {
                   <FormControl>
                     <Textarea placeholder="Type..." {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <UploadSingleImage
+                    url={imageUrlValue}
+                    handleChange={(url) => {
+                      if (url) {
+                        form.clearErrors("imageUrl");
+                      }
+                      form.setValue("imageUrl", url);
+                    }}
+                  />
+
                   <FormMessage />
                 </FormItem>
               )}

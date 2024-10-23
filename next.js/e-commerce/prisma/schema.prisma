@@ -12,6 +12,7 @@ model Product {
   name        String
   description String?
   price       Float
+  quantity    Int     @default(0)
   currency    String  @default("USD")
   discount    Float   @default(0)
   rate        Float   @default(0)

@@ -1,4 +1,4 @@
-import { getCurrencySymbol } from "@/utils";
+import { getCurrencySymbol } from "@/lib/utils";
 import { Product } from "@prisma/client";
 import React from "react";
 
