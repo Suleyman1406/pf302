@@ -84,6 +84,7 @@ export async function POST(req: Request) {
           },
           include: {
             cart: true,
+            orders: true,
           },
         });
         if (!user) return;
@@ -101,6 +102,18 @@ export async function POST(req: Request) {
             },
           });
         }
+        user.orders.forEach(async (order) => {
+          await prisma.orderItem.deleteMany({
+            where: {
+              orderId: order.id,
+            },
+          });
+          await prisma.order.delete({
+            where: {
+              id: order.id,
+            },
+          });
+        });
         await prisma.user.delete({
           where: {
             externalId: id,
