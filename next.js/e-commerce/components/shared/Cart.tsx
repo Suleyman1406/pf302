@@ -13,6 +13,7 @@ import { removeFromCart } from "@/actions/cart";
 import { toast } from "sonner";
 import { useMemo } from "react";
 import { createOrder } from "@/actions/checkout";
+import Image from "next/image";
 
 type Props = {
   cart: CartWithCartItemWithProduct | null;
@@ -91,9 +92,11 @@ export function Cart({ cart }: Props) {
                         {cart?.cartItems.map((cartItem) => (
                           <li key={cartItem.id} className="flex py-6">
                             <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                              <img
+                              <Image
                                 alt={"product"}
                                 src={cartItem.product.imageUrl}
+                                width={100}
+                                height={100}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>

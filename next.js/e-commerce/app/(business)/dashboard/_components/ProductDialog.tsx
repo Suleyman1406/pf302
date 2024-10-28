@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 import { z } from "zod";
 

@@ -7,7 +7,8 @@ type SearchParams = {
 };
 
 async function ProdutsPage({ searchParams }: { searchParams: SearchParams }) {
-  let { sort, category } = searchParams;
+  let { category } = searchParams;
+  const { sort } = searchParams;
   const where: Prisma.ProductWhereInput = {};
 
   if (category) {
