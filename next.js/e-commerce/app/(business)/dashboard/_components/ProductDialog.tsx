@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { EProductModalType } from "@/types";
+import { EModalType } from "@/types";
 import {
   Dialog,
   DialogClose,
@@ -29,6 +29,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { UploadSingleImage } from "@/components/shared/UploadImage";
 import { createProduct } from "@/actions/product";
 import { toast } from "sonner";
+import { Category } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -41,14 +49,18 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, {
     message: "Please upload an image",
   }),
+  categoryId: z.string().min(1, {
+    message: "Please select a category",
+  }),
 });
 
 type Props = {
-  type: EProductModalType;
+  type: EModalType;
+  categories: Category[];
 };
-export const ProductDialog = ({ type }: Props) => {
+export const ProductDialog = ({ type, categories }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const isCreate = type === EProductModalType.CREATE;
+  const isCreate = type === EModalType.CREATE;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,14 +70,14 @@ export const ProductDialog = ({ type }: Props) => {
       quantity: 0,
       description: "",
       imageUrl: "",
+      categoryId: "",
     },
   });
   const imageUrlValue = form.watch("imageUrl");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { ok, error } = await createProduct({ product: values });
-
+    const { ok, error } = await createProduct(values);
     if (!ok) {
       return toast.error(error);
     }
@@ -86,7 +98,9 @@ export const ProductDialog = ({ type }: Props) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>
+            {isCreate ? "Create Product" : "Update Product"}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -142,6 +156,34 @@ export const ProductDialog = ({ type }: Props) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -164,7 +206,7 @@ export const ProductDialog = ({ type }: Props) => {
               )}
             />
             <div className="flex justify-end gap-3">
-              <DialogClose>
+              <DialogClose asChild>
                 <Button variant={"secondary"} type="button">
                   Cancel
                 </Button>

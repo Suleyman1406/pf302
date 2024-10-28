@@ -36,9 +36,9 @@ export const LayoutHeader = () => {
   const router = useRouter();
 
   const handleSortChange = (value: string) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("sort", value);
-    const searchParamsStr = searchParams.toString();
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", value);
+    const searchParamsStr = params.toString();
 
     router.push(`${pathname}?${searchParamsStr}`);
   };
