@@ -99,6 +99,7 @@ model OrderItem {
 model Order {
   id String @id @default(cuid())
 
+  status     OrderStatus @default(PENDING)
   userId     String
   user       User        @relation(fields: [userId], references: [id])
   orderItems OrderItem[]
@@ -108,4 +109,10 @@ model Order {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }

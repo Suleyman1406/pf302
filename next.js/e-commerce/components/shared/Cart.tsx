@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useMemo } from "react";
 import { createOrder } from "@/actions/checkout";
 import Image from "next/image";
+import { createCheckoutSession } from "@/actions/stripe";
 
 type Props = {
   cart: CartWithCartItemWithProduct | null;
@@ -32,11 +33,11 @@ export function Cart({ cart }: Props) {
     }
   }
   async function handleCheckout() {
-    const { ok, error } = await createOrder(cart?.id ?? "");
+    if (!cart?.id) return;
+    const { ok, url, error } = await createCheckoutSession(cart.id);
 
     if (ok) {
-      toast.success("Order created successfully");
-      setOpen(false);
+      window.location.assign(url as string);
     } else {
       toast.error(error);
     }

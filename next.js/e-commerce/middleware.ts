@@ -1,13 +1,11 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import prisma from "./lib/prisma";
-import { Role } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/uploadthing(.*)",
   "/api/webhooks/clerk(.*)",
+  "/api/webhooks/stripe(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
