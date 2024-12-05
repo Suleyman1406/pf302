@@ -12,6 +12,7 @@ import SearchPage from "@/pages/search";
 import InvitesPage from "@/pages/invites";
 import FeedPage from "@/pages/feed";
 import ProfilePage from "@/pages/profile";
+import ChatPage from "@/pages/chat";
 
 const SavedPostsPage = lazy(() => import("@/pages/saved-posts"));
 
@@ -65,10 +66,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: PATHS.PROFILE,
+        path: PATHS.CHAT,
         element: (
           <Suspense fallback={<div>loading....</div>}>
-            <ProfilePage />
+            <ChatPage />
           </Suspense>
         ),
       },
