@@ -7,6 +7,8 @@ import { updateUserSchema } from "../validation/user.mjs";
 
 const router = Router();
 
+router.get("/", authorize(), userController.getAll);
+
 router.patch(
   "/",
   authorize(),

@@ -4,3 +4,9 @@ export const MODAL_TYPE = {
   CREATE: "CREATE",
   EDIT: "EDIT",
 };
+
+export const USER_FRIENDSHIP_STATUS = {
+  FRIEND: 0,
+  PENDING: 1,
+  STRANGER: -1,
+};

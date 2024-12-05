@@ -19,7 +19,7 @@ const LoginPage = () => {
     mutationFn: login,
     onSuccess: (response) => {
       toast.success(response.data.message || "Login successful!");
-      navigate(PATHS.HOME);
+      navigate(PATHS.DISCOVER);
     },
     onError: (error) => {
       const message = error.response?.data?.message || "Something went wrong!";

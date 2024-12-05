@@ -21,7 +21,7 @@ const AuthLayout = () => {
   }
 
   if (user) {
-    return <Navigate to={PATHS.HOME} />;
+    return <Navigate to={PATHS.DISCOVER} />;
   }
 
   return <Outlet />;

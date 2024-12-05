@@ -8,7 +8,11 @@ import RegisterPage from "@/pages/register";
 import ForgotPasswordPage from "@/pages/forgot-password";
 import ResetPasswordPage from "@/pages/reset-password";
 import AuthLayout from "@/layouts/auth";
-// import SavedPostsPage from "@/pages/saved-posts";
+import SearchPage from "@/pages/search";
+import InvitesPage from "@/pages/invites";
+import FeedPage from "@/pages/feed";
+import ProfilePage from "@/pages/profile";
+
 const SavedPostsPage = lazy(() => import("@/pages/saved-posts"));
 
 export const router = createBrowserRouter([
@@ -21,10 +25,50 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: PATHS.SEARCH,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <SearchPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.INVITES,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <InvitesPage />
+          </Suspense>
+        ),
+      },
+      {
         path: PATHS.SAVED,
         element: (
           <Suspense fallback={<div>loading....</div>}>
             <SavedPostsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.FEED,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <FeedPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.PROFILE,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <ProfilePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.PROFILE,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <ProfilePage />
           </Suspense>
         ),
       },

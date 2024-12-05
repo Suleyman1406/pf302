@@ -5,9 +5,7 @@ export async function getPosts({ pageParam, search = "", sort = "" }) {
   try {
     const response = await axios.get(
       `${BASE_URL}/post?page=${pageParam}&search=${search}&sort=${sort}&limit=3`,
-      {
-        withCredentials: true,
-      }
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {
@@ -15,6 +13,25 @@ export async function getPosts({ pageParam, search = "", sort = "" }) {
     return {};
   }
 }
+
+export async function getFeed({
+  pageParam,
+  search = "",
+  sort = "",
+  limit = 10,
+}) {
+  try {
+    const resp = await axios.get(
+      `${BASE_URL}/post/feed?page=${pageParam}&search=${search}&sort=${sort}&limit=10`,
+      { withCredentials: true }
+    );
+    return resp.data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
+
 export async function createPost({ data }) {
   try {
     const response = await axios.post(`${BASE_URL}/post`, data, {
@@ -26,6 +43,7 @@ export async function createPost({ data }) {
     return {};
   }
 }
+
 export async function editPost({ id, data }) {
   try {
     const response = await axios.put(`${BASE_URL}/post/${id}`, data, {
@@ -85,9 +103,7 @@ export async function createPostComment({ postId, content }) {
       {
         content,
       },
-      {
-        withCredentials: true,
-      }
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {
@@ -98,7 +114,6 @@ export async function createPostComment({ postId, content }) {
 
 export async function deletePostComment({ commentId }) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const response = await axios.delete(`${BASE_URL}/comment/${commentId}`, {
       withCredentials: true,
     });
@@ -111,13 +126,14 @@ export async function deletePostComment({ commentId }) {
 
 export async function editPostComment({ commentId, content }) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
     const response = await axios.put(
       `${BASE_URL}/comment/${commentId}`,
       {
         content,
       },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   } catch (error) {

@@ -5,22 +5,25 @@ import { transporter } from "../utils/mail.mjs";
 
 const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, username } = req.body;
 
     if (!email || !password || !name) {
       return res.status(400).json({ message: "Please fill in all fields" });
     }
 
-    const alreadyExists = await User.findOne({ email });
+    const alreadyExists = await User.findOne({
+      $or: [{ email }, { username }],
+    });
 
     if (alreadyExists) {
       return res
         .status(400)
-        .json({ message: "User with this email already exists" });
+        .json({ message: "User with this email&username already exists" });
     }
 
     const user = new User({
       email,
+      username,
       password: hashPassword(password),
       name,
     });

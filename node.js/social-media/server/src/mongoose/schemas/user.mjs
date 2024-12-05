@@ -1,9 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
   email: {
     type: String,
@@ -14,6 +19,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  friends: [
+    {
+      type: Types.ObjectId,
+      ref: "User",
+    },
+  ],
   password: {
     type: String,
     required: true,
