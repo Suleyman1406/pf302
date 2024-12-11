@@ -9,6 +9,8 @@ const router = Router();
 
 router.get("/", authorize(), userController.getAll);
 
+router.get("/friends", authorize(), userController.getFriends);
+
 router.patch(
   "/",
   authorize(),

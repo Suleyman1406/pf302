@@ -1,7 +1,7 @@
 import { BookmarkIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { PATHS } from "./paths";
 import { Binoculars } from "lucide-react";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon, PersonIcon } from "@radix-ui/react-icons";
 import { HomeIcon } from "lucide-react";
 
 export const NAV_ITEMS = [
@@ -34,5 +34,10 @@ export const NAV_ITEMS = [
     title: "Search",
     icon: SearchIcon,
     to: PATHS.SEARCH,
+  },
+  {
+    title: "Chat",
+    icon: ChatBubbleIcon,
+    to: PATHS.CHAT,
   },
 ];

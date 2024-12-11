@@ -10,4 +10,5 @@ export const PATHS = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password/:token",
   CHAT: "/chat",
+  CONVERSATION: "/chat/:id",
 };

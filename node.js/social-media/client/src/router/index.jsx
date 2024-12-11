@@ -73,6 +73,14 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: PATHS.CONVERSATION,
+        element: (
+          <Suspense fallback={<div>loading....</div>}>
+            <ChatPage />
+          </Suspense>
+        ),
+      },
     ],
   },
   {

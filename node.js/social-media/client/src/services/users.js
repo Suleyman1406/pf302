@@ -3,7 +3,8 @@ import axios from "axios";
 
 export async function searchUsers({ pageParam, search = "" }) {
   try {
-    const response = await axios.get(`${BASE_URL}/user?page=${pageParam}&search=${search}`,
+    const response = await axios.get(
+      `${BASE_URL}/user?page=${pageParam}&search=${search}`,
       { withCredentials: true }
     );
     return response.data;
@@ -18,12 +19,35 @@ export async function editUser(formData) {
     const resp = await axios.patch(`${BASE_URL}/user`, formData, {
       withCredentials: true,
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
     console.log(resp.data);
     return resp.data;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getFriends() {
+  try {
+    const response = await axios.get(`${BASE_URL}/user/friends`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
+export async function getConversations() {
+  try {
+    const response = await axios.get(`${BASE_URL}/conversation`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return {};
   }
 }
