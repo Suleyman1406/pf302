@@ -3,7 +3,9 @@ import { login } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -14,6 +16,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const alert = searchParams.get("alert");
   const navigate = useNavigate();
   const { mutateAsync } = useMutation({
     mutationFn: login,
@@ -36,6 +40,14 @@ const LoginPage = () => {
     await mutateAsync(data);
     setSubmitting(false);
   }
+
+  useEffect(() => {
+    if (alert === "session-expired") {
+      toast.error("Session expired. Please login again.");
+      searchParams.delete("alert");
+      setSearchParams(searchParams);
+    }
+  }, [alert]);
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-screen lg:py-0">

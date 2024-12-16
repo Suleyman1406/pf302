@@ -6,11 +6,6 @@ import { HomeIcon } from "lucide-react";
 
 export const NAV_ITEMS = [
   {
-    title: "Feed",
-    icon: HomeIcon,
-    to: PATHS.FEED,
-  },
-  {
     title: "Discover",
     icon: Binoculars,
     to: PATHS.DISCOVER,

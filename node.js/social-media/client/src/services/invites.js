@@ -1,12 +1,8 @@
-import { BASE_URL } from "@/constants";
-import axios from "axios";
+import axiosInstance from "./instance";
 
 export async function getUserInvites({ pageParam }) {
   try {
-    const resp = await axios.get(
-      `${BASE_URL}/invite/getAll?page=${pageParam}`,
-      { withCredentials: true }
-    );
+    const resp = await axiosInstance.get(`/invite/getAll?page=${pageParam}`);
     return resp.data;
   } catch (error) {
     console.error(error);
@@ -16,11 +12,7 @@ export async function getUserInvites({ pageParam }) {
 
 export async function sendFollowRequest(recipientId) {
   try {
-    const resp = await axios.post(
-      `${BASE_URL}/invite/${recipientId}/send`,
-      {},
-      { withCredentials: true }
-    );
+    const resp = await axiosInstance.post(`/invite/${recipientId}/send`, {});
     console.log(resp.data);
     return resp;
   } catch (error) {
@@ -31,11 +23,7 @@ export async function sendFollowRequest(recipientId) {
 
 export async function acceptFollowRequest(requestId) {
   try {
-    const resp = await axios.patch(
-      `${BASE_URL}/invite/${requestId}/accept`,
-      {},
-      { withCredentials: true }
-    );
+    const resp = await axiosInstance.patch(`/invite/${requestId}/accept`, {});
     console.log(resp.data);
   } catch (error) {
     console.error(error);
@@ -45,11 +33,7 @@ export async function acceptFollowRequest(requestId) {
 
 export async function rejectFollowRequest(requestId) {
   try {
-    const resp = await axios.patch(
-      `${BASE_URL}/invite/${requestId}/reject`,
-      {},
-      { withCredentials: true }
-    );
+    const resp = await axiosInstance.patch(`/invite/${requestId}/reject`, {});
     console.log(resp.data);
   } catch (error) {
     console.error(error);
@@ -59,9 +43,7 @@ export async function rejectFollowRequest(requestId) {
 
 export async function unfollowUser(userId) {
   try {
-    const resp = await axios.delete(`${BASE_URL}/invite/${userId}/unfollow`, {
-      withCredentials: true,
-    });
+    const resp = await axiosInstance.delete(`/invite/${userId}/unfollow`);
     console.log(resp.data);
   } catch (error) {
     console.error(error);
@@ -71,9 +53,7 @@ export async function unfollowUser(userId) {
 
 export async function retractFollowRequest(senderId) {
   try {
-    const resp = await axios.delete(`${BASE_URL}/invite/${senderId}/retract`, {
-      withCredentials: true,
-    });
+    const resp = await axiosInstance.delete(`/invite/${senderId}/retract`);
     return resp.data;
   } catch (error) {
     console.error(error);

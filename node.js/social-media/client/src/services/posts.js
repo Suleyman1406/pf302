@@ -1,11 +1,9 @@
-import { BASE_URL } from "@/constants";
-import axios from "axios";
+import axiosInstance from "./instance";
 
 export async function getPosts({ pageParam, search = "", sort = "" }) {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/post?page=${pageParam}&search=${search}&sort=${sort}&limit=3`,
-      { withCredentials: true }
+    const response = await axiosInstance.get(
+      `/post?page=${pageParam}&search=${search}&sort=${sort}&limit=3`
     );
     return response.data;
   } catch (error) {
@@ -21,9 +19,8 @@ export async function getFeed({
   limit = 10,
 }) {
   try {
-    const resp = await axios.get(
-      `${BASE_URL}/post/feed?page=${pageParam}&search=${search}&sort=${sort}&limit=10`,
-      { withCredentials: true }
+    const resp = await axiosInstance.get(
+      `/post/feed?page=${pageParam}&search=${search}&sort=${sort}&limit=10`
     );
     return resp.data;
   } catch (error) {
@@ -34,9 +31,7 @@ export async function getFeed({
 
 export async function createPost({ data }) {
   try {
-    const response = await axios.post(`${BASE_URL}/post`, data, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.post(`/post`, data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -46,9 +41,7 @@ export async function createPost({ data }) {
 
 export async function editPost({ id, data }) {
   try {
-    const response = await axios.put(`${BASE_URL}/post/${id}`, data, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.put(`/post/${id}`, data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -58,9 +51,7 @@ export async function editPost({ id, data }) {
 
 export async function deletePost({ id }) {
   try {
-    const response = await axios.delete(`${BASE_URL}/post/${id}`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.delete(`/post/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -70,8 +61,8 @@ export async function deletePost({ id }) {
 
 export async function toggleLikePost({ id }) {
   try {
-    const response = await axios.put(
-      `${BASE_URL}/post/${id}/like`,
+    const response = await axiosInstance.put(
+      `/post/${id}/like`,
       {},
       {
         withCredentials: true,
@@ -86,9 +77,7 @@ export async function toggleLikePost({ id }) {
 
 export async function getPostComments({ postId }) {
   try {
-    const response = await axios.get(`${BASE_URL}/comment/${postId}`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get(`/comment/${postId}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -98,13 +87,9 @@ export async function getPostComments({ postId }) {
 
 export async function createPostComment({ postId, content }) {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/comment/${postId}`,
-      {
-        content,
-      },
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.post(`/comment/${postId}`, {
+      content,
+    });
     return response.data;
   } catch (error) {
     console.error(error);
@@ -114,9 +99,7 @@ export async function createPostComment({ postId, content }) {
 
 export async function deletePostComment({ commentId }) {
   try {
-    const response = await axios.delete(`${BASE_URL}/comment/${commentId}`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.delete(`/comment/${commentId}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -126,8 +109,8 @@ export async function deletePostComment({ commentId }) {
 
 export async function editPostComment({ commentId, content }) {
   try {
-    const response = await axios.put(
-      `${BASE_URL}/comment/${commentId}`,
+    const response = await axiosInstance.put(
+      `/comment/${commentId}`,
       {
         content,
       },

@@ -15,6 +15,14 @@ const conversationSchema = new mongoose.Schema({
     type: [Types.ObjectId],
     ref: "Message",
   },
+  user1UnreadMessageCount: {
+    type: Number,
+    default: 0,
+  },
+  user2UnreadMessageCount: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

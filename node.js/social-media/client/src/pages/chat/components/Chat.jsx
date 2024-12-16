@@ -4,8 +4,11 @@ import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { CHAT_MESSAGES_KEY } from "@/constants/query-keys";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  CHAT_CONVERSATIONS_KEY,
+  CHAT_MESSAGES_KEY,
+} from "@/constants/query-keys";
 import { getConversation } from "@/services/chat";
 import Spinner from "@/components/shared/spinner";
 import { useSelector } from "react-redux";
@@ -15,7 +18,8 @@ export const Chat = ({ socket }) => {
   const { user } = useSelector(selectUser);
   const { id } = useParams();
   const inputRef = useRef(null);
-  const { data, isLoading } = useQuery({
+  const queryClient = useQueryClient();
+  const { data, isLoading, status } = useQuery({
     queryKey: [CHAT_MESSAGES_KEY, id],
     queryFn: () => getConversation({ receiverId: id }),
   });
@@ -29,7 +33,12 @@ export const Chat = ({ socket }) => {
     const value = inputRef.current?.value.trim();
     const conversationId = data?.item?._id;
     if (!value || !conversationId) return;
-    socket?.emit("message", { content: value, to: id, conversationId });
+    socket?.emit("message", {
+      content: value,
+      to: id,
+      conversationId,
+      from: user._id,
+    });
     setMessages((prev) => [
       ...prev,
       { owner: true, text: value, name: user.name },
@@ -72,6 +81,12 @@ export const Chat = ({ socket }) => {
       });
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (status === "success") {
+      queryClient.invalidateQueries(CHAT_CONVERSATIONS_KEY);
+    }
+  }, [status]);
 
   if (isLoading) {
     return (

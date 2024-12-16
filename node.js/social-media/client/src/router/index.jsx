@@ -10,7 +10,6 @@ import ResetPasswordPage from "@/pages/reset-password";
 import AuthLayout from "@/layouts/auth";
 import SearchPage from "@/pages/search";
 import InvitesPage from "@/pages/invites";
-import FeedPage from "@/pages/feed";
 import ProfilePage from "@/pages/profile";
 import ChatPage from "@/pages/chat";
 
@@ -46,14 +45,6 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>loading....</div>}>
             <SavedPostsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.FEED,
-        element: (
-          <Suspense fallback={<div>loading....</div>}>
-            <FeedPage />
           </Suspense>
         ),
       },

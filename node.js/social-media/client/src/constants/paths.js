@@ -12,3 +12,10 @@ export const PATHS = {
   CHAT: "/chat",
   CONVERSATION: "/chat/:id",
 };
+
+export const unauthenticatedRoutes = [
+  PATHS.LOGIN,
+  PATHS.REGISTER,
+  PATHS.FORGOT_PASSWORD,
+  PATHS.RESET_PASSWORD,
+];

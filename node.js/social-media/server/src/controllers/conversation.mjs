@@ -47,6 +47,13 @@ const getUserConversation = async (req, res) => {
       .populate("messages.user", "name email");
 
     if (conversation) {
+      if (conversation.user1._id.toString() === userId.toString()) {
+        conversation.user1UnreadMessageCount = 0;
+      } else {
+        conversation.user2UnreadMessageCount = 0;
+      }
+      await conversation.save();
+
       return res.status(200).json({
         message: "Conversation found",
         item: conversation,

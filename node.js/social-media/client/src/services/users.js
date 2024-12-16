@@ -1,11 +1,9 @@
-import { BASE_URL } from "@/constants";
-import axios from "axios";
+import axiosInstance from "./instance";
 
 export async function searchUsers({ pageParam, search = "" }) {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/user?page=${pageParam}&search=${search}`,
-      { withCredentials: true }
+    const response = await axiosInstance.get(
+      `/user?page=${pageParam}&search=${search}`
     );
     return response.data;
   } catch (error) {
@@ -16,8 +14,7 @@ export async function searchUsers({ pageParam, search = "" }) {
 
 export async function editUser(formData) {
   try {
-    const resp = await axios.patch(`${BASE_URL}/user`, formData, {
-      withCredentials: true,
+    const resp = await axiosInstance.patch(`/user`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -31,9 +28,7 @@ export async function editUser(formData) {
 
 export async function getFriends() {
   try {
-    const response = await axios.get(`${BASE_URL}/user/friends`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get(`/user/friends`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -42,9 +37,7 @@ export async function getFriends() {
 }
 export async function getConversations() {
   try {
-    const response = await axios.get(`${BASE_URL}/conversation`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get(`/conversation`);
     return response.data;
   } catch (error) {
     console.error(error);

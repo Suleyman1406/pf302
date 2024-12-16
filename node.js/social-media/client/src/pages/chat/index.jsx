@@ -34,7 +34,7 @@ const ChatPage = () => {
             <div className="ml-2 font-bold text-2xl">QuickChat</div>
           </div>
           <CurrentUserCard />
-          <Conversations />
+          <Conversations socket={socket} />
         </div>
         {id && <Chat socket={socket} />}
         {!id && (
