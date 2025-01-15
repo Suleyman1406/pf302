@@ -20,6 +20,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
+import authService from "@/services/auth";
+import { AxiosError } from "axios";
+import { RegisterResponse } from "@/services/auth/types";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -36,6 +41,16 @@ const formSchema = z
 
 export const RegisterDialog = () => {
   const { isOpen, closeDialog, type, openDialog } = useDialog();
+  const { mutate, isPending } = useMutation({
+    mutationFn: authService.register,
+    onSuccess: (response) => {
+      toast.success(response.data.message);
+      openDialog(DialogTypeEnum.LOGIN);
+    },
+    onError: (error: AxiosError<RegisterResponse>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong!");
+    },
+  });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,7 +68,13 @@ export const RegisterDialog = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const data = {
+      name: values.name,
+      username: values.surname,
+      email: values.email,
+      password: values.password,
+    };
+    mutate(data);
   }
 
   return (
@@ -148,7 +169,7 @@ export const RegisterDialog = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={false}>
+            <Button type="submit" className="w-full" disabled={isPending}>
               Register
             </Button>
           </form>

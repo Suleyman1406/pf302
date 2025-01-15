@@ -5,11 +5,19 @@ import "./style.css";
 type Props = {
   min: number;
   max: number;
+  minimumValue?: number | null;
+  maximumValue?: number | null;
   onChange: (min: number, max: number) => void;
 };
 
 let timeoutId: NodeJS.Timeout;
-const MultiRangeSlider = ({ min, max, onChange }: Props) => {
+const MultiRangeSlider = ({
+  min,
+  max,
+  minimumValue,
+  maximumValue,
+  onChange,
+}: Props) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -49,6 +57,17 @@ const MultiRangeSlider = ({ min, max, onChange }: Props) => {
       onChange(minVal, maxVal);
     }, 300);
   }, [minVal, maxVal]);
+
+  useEffect(() => {
+    if (minimumValue) {
+      setMinVal(minimumValue);
+      minValRef.current = minimumValue;
+    }
+    if (maximumValue) {
+      setMaxVal(maximumValue);
+      maxValRef.current = maximumValue;
+    }
+  }, [minimumValue, maximumValue]);
 
   return (
     <div id="multi-range-slider">

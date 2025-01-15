@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 export type User = {
   _id: string;
   name: string;
@@ -11,31 +13,31 @@ export type User = {
 export type Location = {
   _id: string;
   createdAt: string;
-  name: string;
+  title: string;
 };
 
 export type Category = {
   _id: string;
   createdAt: string;
-  name: string;
-  count: number;
+  title: string;
+  rents: Rent[] | string[];
 };
 
 export type Rent = {
   _id: string;
-  name: string;
+  title: string;
   fuel: number;
-  gearBox: string;
+  gear: string;
   price: number;
   description: string;
   capacity: number;
   createdAt: string;
   currency: string;
-  discount: number;
+  discountPrice: number | null;
   category: Category;
   dropOffLocations: Location[];
-  images: string[];
-  pickUpLocation: Location;
+  imageUrls: string[];
+  pickUpLocations: Location[];
   showInRecommendation: boolean;
   reviews: Review[];
 };
@@ -45,20 +47,19 @@ export type Reservation = {
     name: string;
     phoneNumber: string;
     address: string;
-    townCity: string;
+    city: string;
   };
   createdAt: string;
   dropOffLocation: string;
-  endDate: string;
-  id: string;
+  dropOffDate: string;
   pickUpLocation: string;
+  pickUpDate: string;
   rent: Rent | string;
-  startDate: string;
-  status: ReservationStatus;
   total: number;
   updatedAt: string;
   user: string;
   _id: string;
+  status: ReservationStatus;
   hasReview: boolean;
 };
 
@@ -67,7 +68,7 @@ export type Review = {
   content: string;
   createdAt: string;
   id: string;
-  rating: number;
+  rate: number;
   rent: Rent;
   status: ReviewStatus;
   _id: string;
@@ -104,14 +105,18 @@ export enum UserRole {
 }
 
 export enum ReservationStatus {
-  Pending = "pending",
-  Approved = "approved",
-  Rejected = "rejected",
-  Cancelled = "cancelled",
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Cancelled = "Cancelled",
 }
 
 export enum ReviewStatus {
-  Pending = "pending",
-  Approved = "approved",
-  Rejected = "rejected",
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
 }
+
+export type AxiosResponseError = AxiosError<{
+  message: string;
+}>;

@@ -16,6 +16,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         ref={ref}
         {...props}
+        onWheel={e=>{
+          (e.target as HTMLInputElement).blur()
+        }}
       />
     );
   }

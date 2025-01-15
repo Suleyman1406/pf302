@@ -22,21 +22,7 @@ const formSchema = z.object({
 });
 
 export const CreateConversation = () => {
-  // const form = useForm<z.infer<typeof formSchema>>({
-  //   resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     email: user?.email || "",
-  //     name: user?.name ? `${user?.name} ${user?.surname}` : "",
-  //   },
-  // });
-
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    // mutate({
-    //   userEmail: data.email,
-    //   userName: data.name,
-    //   userId,
-    // });
-  }
+  function onSubmit(data: z.infer<typeof formSchema>) {}
   return (
     <div>
       <h1 className="text-muted-foreground text-2xl font-semibold mt-3">

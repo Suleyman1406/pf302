@@ -26,13 +26,15 @@ import { QUERY_KEYS } from "@/constants/query-keys";
 import { RenderIf } from "@/components/shared/RenderIf";
 import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
-import { Location } from "@/types";
+import { AxiosResponseError, Location } from "@/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Spinner } from "@/components/shared/Spinner";
 import { paths } from "@/constants/paths";
 import { toast } from "sonner";
+import { GetRentByIdResponse } from "@/services/rent/types";
+import reservationService from "@/services/reservation";
 
 const FormSchema = z.object({
   name: z.string().min(4, {
@@ -72,6 +74,16 @@ type FormType = UseFormReturn<z.infer<typeof FormSchema>>;
 
 export const Steps = () => {
   const navigate = useNavigate();
+  const { mutate, isPending } = useMutation({
+    mutationFn: reservationService.create,
+    onSuccess: () => {
+      toast.success("Reservation created successfully");
+      navigate(paths.RESERVATIONS);
+    },
+    onError: (error: AxiosResponseError) => {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    },
+  });
   const { id } = useParams<{ id: string }>();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -91,16 +103,20 @@ export const Steps = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const payload = {
-      rentId: id!,
-      startDate: data.pickUpDate,
-      endDate: data.dropOffDate,
-      billingName: data.name,
-      billingPhoneNumber: data.phoneNumber,
-      billingAddress: data.address,
-      billingTownCity: data.city,
+      rent: id!,
+      pickUpDate: data.pickUpDate,
+      dropOffDate: data.dropOffDate,
+      billing: {
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        city: data.city,
+      },
       dropOffLocation: data.dropOffLocation,
       pickUpLocation: data.pickUpLocation,
     };
+
+    mutate(payload);
   }
 
   return (
@@ -111,7 +127,7 @@ export const Steps = () => {
       >
         <BillingStep form={form} />
         <RentalStep form={form} />
-        <ConfirmationStep pending={false} form={form} />
+        <ConfirmationStep pending={isPending} form={form} />
       </form>
     </Form>
   );
@@ -198,6 +214,29 @@ const BillingStep = ({ form }: { form: FormType }) => {
 
 const RentalStep = ({ form }: { form: FormType }) => {
   const { id } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
+  const { data } =
+    (queryClient.getQueryData([QUERY_KEYS.RENT_DETAIL, id]) as {
+      data: GetRentByIdResponse;
+    }) ?? {};
+  const rent = data?.item ?? null;
+
+  const dropOffLocationOptions = useMemo(
+    () =>
+      rent?.dropOffLocations.map((item) => ({
+        value: item._id,
+        label: item.title,
+      })) || [],
+    [rent?.dropOffLocations]
+  );
+  const pickUpLocationOptions = useMemo(
+    () =>
+      rent?.dropOffLocations.map((item) => ({
+        value: item._id,
+        label: item.title,
+      })) || [],
+    [rent?.pickUpLocations]
+  );
 
   return (
     <div className="rounded-[10px] bg-white w-full lg:p-6 p-4">
@@ -236,9 +275,11 @@ const RentalStep = ({ form }: { form: FormType }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {/* <SelectItem value={pickupLocation._id} disabled>
-                    {pickupLocation.name}
-                  </SelectItem> */}
+                  {pickUpLocationOptions.map((location) => (
+                    <SelectItem key={location.value} value={location.value}>
+                      {location.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -283,16 +324,11 @@ const RentalStep = ({ form }: { form: FormType }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {/* <RenderIf condition={possibleDropOffLocations.length === 0}>
-                    <SelectItem value="-" disabled>
-                      No drop off locations available
+                  {dropOffLocationOptions.map((location) => (
+                    <SelectItem key={location.value} value={location.value}>
+                      {location.label}
                     </SelectItem>
-                  </RenderIf> */}
-                  {/* {possibleDropOffLocations.map((location) => (
-                    <SelectItem key={location._id} value={location._id}>
-                      {location.name}
-                    </SelectItem>
-                  ))} */}
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

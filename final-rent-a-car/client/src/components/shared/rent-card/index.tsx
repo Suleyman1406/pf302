@@ -11,17 +11,31 @@ import FuelImg from "@/assets/icons/fuel.svg";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Rent } from "@/types";
 import { formatPrice } from "@/lib/utils";
-import { useDialog } from "@/hooks/useDialog";
+import { DialogTypeEnum, useDialog } from "@/hooks/useDialog";
+import { RenderIf } from "../RenderIf";
+import { useAppSelector } from "@/hooks/redux";
+import { selectAuth } from "@/store/auth";
 
 type Props = {
   rent: Rent;
 };
 
 export const RentCard = ({ rent }: Props) => {
+  const { user } = useAppSelector(selectAuth);
   const { openDialog } = useDialog();
   const [isLiked, setIsLiked] = useState(false);
-  const { _id, name, category, fuel, gearBox, images, capacity, price } = rent;
-  const mainImage = images[0];
+  const {
+    _id,
+    title,
+    category,
+    fuel,
+    gear,
+    imageUrls,
+    capacity,
+    price,
+    discountPrice,
+  } = rent;
+  const mainImage = imageUrls[0];
 
   return (
     <div className="w-full bg-white rounded-[10px] p-4 lg:p-6">
@@ -31,10 +45,10 @@ export const RentCard = ({ rent }: Props) => {
             to={paths.DETAIL(_id)}
             className="font-bold text-secondary-500 text-base lg:text-xl leading-[150%] tracking-[-0.6px] cursor-pointer hover:underline"
           >
-            {name}
+            {title}
           </Link>
           <p className="text-secondary-300 text-xs lg:text-sm leading-[150%] tracking-[-0.28px]">
-            {category.name}
+            {category.title}
           </p>
         </div>
         <button onClick={() => setIsLiked(!isLiked)} className="h-fit">
@@ -58,7 +72,7 @@ export const RentCard = ({ rent }: Props) => {
         <div className="flex gap-1.5 items-center">
           <img src={TransmissionImg} alt="Transmission" />
           <p className=" text-secondary-300 text-sm font-medium leading-[24px] tracking-[-0.28px]">
-            {gearBox}
+            {gear}
           </p>
         </div>
         <div className="flex gap-1.5 items-center">
@@ -69,12 +83,27 @@ export const RentCard = ({ rent }: Props) => {
         </div>
       </div>
       <div className="flex items-center justify-between mt-3 lg:mt-6">
-        <p className="text-secondary-500 text-xl font-bold">
-          {formatPrice(price)}/{" "}
-          <span className="text-sm text-secondary-300">day</span>
-        </p>
+        <div className="flex flex-col gap-x-1">
+          <RenderIf condition={!!discountPrice}>
+            <p className="text-muted-foreground text-sm font-bold line-through">
+              {formatPrice(price)}
+            </p>
+          </RenderIf>
+          <p className="text-secondary-500 text-xl font-bold">
+            {formatPrice(discountPrice || price)}
+          </p>
+        </div>
+        /<span className="text-sm text-secondary-300">day</span>
         <Button asChild>
-          <Link to={paths.PAYMENT(_id)} onClick={() => {}}>
+          <Link
+            to={paths.PAYMENT(_id)}
+            onClick={(e) => {
+              if (!user) {
+                e.preventDefault();
+                openDialog(DialogTypeEnum.LOGIN);
+              }
+            }}
+          >
             Rent Now
           </Link>
         </Button>

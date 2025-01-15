@@ -7,8 +7,8 @@ type Props = {
   rent: Rent;
 };
 export const PaymentSummary = ({ rent }: Props) => {
-  const { name, images, price, discount } = rent;
-  const mainImage = images[0];
+  const { title, imageUrls, price, discountPrice } = rent;
+  const mainImage = imageUrls[0];
 
   return (
     <div className="rounded-[10px] bg-white p-4 lg:p-6 h-fit lg:sticky top-[160px]">
@@ -28,7 +28,7 @@ export const PaymentSummary = ({ rent }: Props) => {
         />
         <div>
           <h2 className="text-2xl lg:text-[32px] font-bold text-secondary-500 leading-[150%] tracking-[-0.96px]">
-            {name}
+            {title}
           </h2>
           <div className="mt-2 flex items-center gap-x-2">
             <ReviewStar rating={3} />
@@ -49,7 +49,7 @@ export const PaymentSummary = ({ rent }: Props) => {
           </p>
         </div>
         <p className="text-secondary-500 text-2xl lg:text-[32px] !leading-normal font-bold">
-          {formatPrice(price - discount)}
+          {formatPrice(discountPrice || price)}
         </p>
       </div>
     </div>

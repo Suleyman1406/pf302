@@ -5,7 +5,6 @@ type Props = {
   reviews: TReview[];
 };
 export const ReviewsSection = ({ reviews }: Props) => {
-  console.log(reviews);
   if (reviews.length === 0) return null;
 
   return (

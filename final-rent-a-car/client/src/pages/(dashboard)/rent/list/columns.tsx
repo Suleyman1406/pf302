@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<Rent>[] = [
   {
-    accessorKey: "images",
+    accessorKey: "imageUrls",
     header: "Image",
     cell: (data) => {
       return (
         <img
-          src={data.row.original.images[0]}
+          src={data.row.original.imageUrls?.[0]}
           alt={"Rent Picture"}
           className="w-10 h-10 object-cover rounded-lg"
         />
@@ -19,11 +19,11 @@ export const columns: ColumnDef<Rent>[] = [
     },
   },
   {
-    accessorKey: "category.name",
+    accessorKey: "category.title",
     header: "Category",
   },
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: "Name",
   },
   {
@@ -52,8 +52,13 @@ export const columns: ColumnDef<Rent>[] = [
     },
   },
   {
-    accessorKey: "discount",
-    header: "Discount",
+    accessorKey: "discountPrice",
+    header: "Discounted Price",
+    cell: (data) => {
+      return <div className="min-w-[160px]">
+        {data.row.original.discountPrice  || "No Discount"}
+      </div>
+    }
   },
   {
     accessorKey: "capacity",
@@ -64,8 +69,8 @@ export const columns: ColumnDef<Rent>[] = [
     header: "Fuel",
   },
   {
-    accessorKey: "gearbox",
-    header: "Gearbox",
+    accessorKey: "gear",
+    header: "Gear",
   },
   {
     accessorKey: "showInRecommendation",

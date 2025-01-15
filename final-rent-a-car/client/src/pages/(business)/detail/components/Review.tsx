@@ -7,9 +7,9 @@ type Props = {
   review: TReview;
 };
 export const Review = ({ review }: Props) => {
-  const { author, createdAt, rating, content } = review;
+  const { author, createdAt, rate, content } = review;
 
-  const fullName = `${author.name} ${author.surname}`;
+  const fullName = `${author.name} `;
 
   return (
     <div className="flex gap-x-4">
@@ -25,7 +25,7 @@ export const Review = ({ review }: Props) => {
             <p className="text-secondary-300 text-sm font-medium leading-[150%] tracking-[-0.28px] text-end mb-2">
               {formatDate(createdAt, "DD MMM yyyy")}
             </p>
-            <ReviewStar rating={rating} />
+            <ReviewStar rating={rate} />
           </div>
         </div>
         <p className="text-sm font-normal !leading-[200%] tracking-[-0.28px] mt-3 text-secondary-300">

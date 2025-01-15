@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
@@ -11,19 +11,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { RenderIf } from "../shared/RenderIf";
+import { Matcher } from "react-day-picker";
 
 type Props = {
   onChange: (date?: Date) => void;
   hidePastDates?: boolean;
   defaultDate?: string | null;
   variant?: "primary" | "secondary";
+  disabledDates?:  Matcher | Matcher[] | undefined
 };
 
 export function DatePicker({
   onChange,
-  hidePastDates = false,
   defaultDate,
   variant = "primary",
+  disabledDates
 }: Props) {
   const [date, setDate] = useState<Date | undefined>(
     defaultDate ? new Date(defaultDate) : undefined
@@ -57,7 +59,7 @@ export function DatePicker({
           }}
           initialFocus
           className="!text-black"
-          disabled={hidePastDates ? { before: new Date() } : undefined}
+          disabled={disabledDates}
         />
       </PopoverContent>
     </Popover>

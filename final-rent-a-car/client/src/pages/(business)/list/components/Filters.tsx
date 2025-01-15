@@ -7,6 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import MultiRangeSlider from "@/components/shared/multi-range-slider";
+import { QUERY_KEYS } from "@/constants/query-keys";
+import categoryService from "@/services/category";
 
 type Filters = {
   label: string;
@@ -18,18 +20,27 @@ type Filters = {
 }[];
 
 export const Filters = () => {
-  const [searchParams, setSearcParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.CATEGORIES],
+    queryFn: categoryService.getAll,
+  });
+  const categoryOptions = data?.data?.items.map((category) => ({
+    value: category._id,
+    label: category.title,
+    count: category.rents.length,
+  }));
 
   const filters: Filters = useMemo(
     () => [
       {
-        label: "Category",
-        options: [],
+        label: "category",
+        options: categoryOptions ?? [],
       },
       {
-        label: "Capacity",
+        label: "capacity",
         options: [
           {
             value: "2",
@@ -50,7 +61,7 @@ export const Filters = () => {
         ],
       },
     ],
-    []
+    [categoryOptions]
   );
 
   function toggle() {
@@ -61,9 +72,29 @@ export const Filters = () => {
     setIsOpen(false);
   }
 
-  function handleChange(type: string, option: string) {}
+  function handleChange(type: string, option: string) {
+    const params = searchParams.getAll(type);
+    const paramIndex = params.indexOf(option);
+    if (paramIndex !== -1) {
+      params.splice(paramIndex, 1);
+    } else {
+      params.push(option);
+    }
+    searchParams.delete(type);
+    params.forEach((param) => {
+      searchParams.append(type, param);
+    });
 
-  function handleRangeChange(min: number, max: number) {}
+    setSearchParams(searchParams);
+  }
+
+  function handleRangeChange(min: number, max: number) {
+    searchParams.delete("minPrice");
+    searchParams.delete("maxPrice");
+    if (min !== 0) searchParams.set("minPrice", min.toString());
+    if (max !== 1000) searchParams.set("maxPrice", max.toString());
+    setSearchParams(searchParams);
+  }
 
   useOnClickOutside(ref, handleClose);
 
@@ -87,9 +118,11 @@ export const Filters = () => {
                   <div key={option.value} className="flex gap-x-2 items-center">
                     <Checkbox
                       id={`${filter.label}-${option.value}`}
-                      onClick={() => handleChange(filter.label, option.value)}
+                      onClick={() => {
+                        handleChange(filter.label, option.value);
+                      }}
                       defaultChecked={searchParams
-                        .getAll(filter.label.toLowerCase())
+                        .getAll(filter.label)
                         .includes(option.value)}
                       className="h-5 w-5"
                     />
@@ -113,7 +146,21 @@ export const Filters = () => {
             <h4 className="text-xs font-semibold tracking-[-0.24px] text-secondary mb-7 uppercase">
               Price
             </h4>
-            <MultiRangeSlider min={0} max={1000} onChange={handleRangeChange} />
+            <MultiRangeSlider
+              min={0}
+              max={1000}
+              minimumValue={
+                searchParams.get("minPrice")
+                  ? parseInt(searchParams.get("minPrice") as string)
+                  : null
+              }
+              maximumValue={
+                searchParams.get("maxPrice")
+                  ? parseInt(searchParams.get("maxPrice") as string)
+                  : null
+              }
+              onChange={handleRangeChange}
+            />
           </div>
         </div>
       </div>
